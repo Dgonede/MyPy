@@ -1,7 +1,7 @@
 from pathlib import Path
-from time import sleep
+from time import sleep  
 
-import docker
+import docker   
 import requests
 import pytest
 from faker import Faker

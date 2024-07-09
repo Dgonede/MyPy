@@ -10,7 +10,7 @@
           Admin = "Admin2",             
         username= "jhon",                    
         email="jhon@ya.ru",  
-        password = "O23@#OE" 
+        password = "O23@#OE"    
                                   
         Admin = None,   
         username= "sam",
@@ -23,6 +23,6 @@
         password= None  
 
       
-
+.
 
 """

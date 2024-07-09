@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI 
 
 
 from views.hello import router as hello_router
@@ -11,7 +11,8 @@ app = FastAPI()
 app.include_router(users_router)
 app.include_router(hello_router)
 app.include_router(item_router)
-app.include_router(secret_router)
+app.include_router(secret_router)    
+
 
 
 

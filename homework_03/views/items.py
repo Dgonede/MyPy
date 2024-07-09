@@ -8,7 +8,7 @@ router = APIRouter(
     prefix = "/items",
     tags = ["items"],
 )
-
+    
 @router.get("/")
 def get_items():
     return {

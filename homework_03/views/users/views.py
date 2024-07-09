@@ -12,10 +12,10 @@ router = APIRouter(
 
 
 
-password_entared = False
+password_entared = False   
 
 
-"""Основная авторизация для дальнешей работы с Api"""
+"""Основная авторизация для дальнешей работы с Api"""  
 @router.get("/me/", response_model=UserRead)
 def get_me(
      user:User = Depends(get_user_by_pass),
@@ -102,4 +102,4 @@ def  get_user(user_id: PositiveInt):
      raise HTTPException(
           status_code = status.HTTP_404_NOT_FOUND,
           detail = f"User #{user_id} not found",
-     )   
+     )     

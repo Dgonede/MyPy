@@ -5,13 +5,13 @@ from starlette import status
 
 from views.users.crud import storage
 
-http_bearer = HTTPBearer(auto_error=False)
+http_bearer = HTTPBearer(auto_error=False)  
 
 def get_user_by_auth_token(
           token: Annotated[HTTPAuthorizationCredentials, Depends(http_bearer)],
 ):
      print(token)
-     user = storage.get_by_token(token = token.credentials)
+     user = storage.get_by_token(token = token.credentials)       
      if user.password == "Admin":
           return user
      raise HTTPException(

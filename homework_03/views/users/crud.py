@@ -3,8 +3,8 @@ from .schemas import User, UserCreate, UserIdType
 
 class UsersStorage(BaseModel):
     users: dict[UserIdType, User] = {}
-    users_by_token: dict[str, User] = {}
-    user_by_password: dict[str, User] = {}
+    users_by_token: dict[str, User] = {}  
+    user_by_password: dict[str, User] = {}    
     last_id: int = 0
 
     @property
@@ -15,10 +15,10 @@ class UsersStorage(BaseModel):
     def create(self, user_in: UserCreate) -> User:
         user = User(
             id = self.next_id,
-            **user_in.model_dump(),
+            **user_in.model_dump(),    
         )
         self.users[user.id] = user
-        self.users_by_token[user.token] = user
+        self.users_by_token[user.token] = user  
         self.user_by_password[user.password] = user
         return user 
     
