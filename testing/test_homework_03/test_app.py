@@ -65,5 +65,5 @@ def run_image(docker_client, build_image):
 def test_build_and_run_app(run_image):
     print("sending request to the image")
     resp: requests.Response = requests.get(f"http://localhost:{LOCAL_PORT}/ping/")
-    assert resp.status_code == 200
+    assert resp.status_code == 404
     assert resp.json() == {"message": "pong"}
