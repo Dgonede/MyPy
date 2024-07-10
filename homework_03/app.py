@@ -16,8 +16,6 @@ app.include_router(secret_router)
 
 
 
-
-
 @app.get("/")
 def hello_root():
     return {"message": "Hellow"}
