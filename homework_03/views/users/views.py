@@ -11,6 +11,9 @@ router = APIRouter(
 )
 
 
+@router.get("/ping/", status_code=200)
+async def ping():
+    return {"message": "pong"}
 
 password_entared = False   
 
@@ -102,4 +105,8 @@ def  get_user(user_id: PositiveInt):
      raise HTTPException(
           status_code = status.HTTP_404_NOT_FOUND,
           detail = f"User #{user_id} not found",
-     )     
+     )
+
+
+
+     
