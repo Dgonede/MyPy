@@ -10,7 +10,7 @@ from sqlalchemy.orm import selectinload
 from sqlalchemy.ext.asyncio import AsyncSession
 
 
-from models.models import (
+from modul.models import (
     async_session,
     async_engine, 
     Base, 
