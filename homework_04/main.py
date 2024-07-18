@@ -11,6 +11,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 PG_CONN_URI = os.environ.get("SQLALCHEMY_PG_CONN_URI") or "postgresql+asyncpg://postgres:password@localhost/postgres"
 
 from modul.models import (
+    async_session,
     async_engine, 
     Base, 
     User, 
@@ -268,33 +269,33 @@ async def select_top_users_with_posts_sorted(
 
 async def main():
     await create_tables()
-    # async with async_session() as session:
-    #     await create_user(session, username="lone", email="lone@admin.com")
-    #     gane: User = await create_user(session, username="gane", email=None)
-    #     post_pg: Post = await create_post(
-    #         session=session,
-    #         title="Reander post",
-    #         user_id=gane.id,
+    async with async_session() as session:
+        await create_user(session, username="lone", email="lone@admin.com")
+        gane: User = await create_user(session, username="gane", email=None)
+        post_pg: Post = await create_post(
+            session=session,
+            title="Reander post",
+            user_id=gane.id,
            
-    #     )
-    #     print("post pg:", post_pg)
-    #     await create_users(session, "nick", "bob", "alice")
-    #     sam: User = await create_user(session, username="sam", email=None)
-    #     await create_posts(
-    #         session,
-    #         "MySQL Intro",
-    #         "MariaDB Lesson",
-    #         user_id=sam.id,
+        )
+        print("post pg:", post_pg)
+        await create_users(session, "nick", "bob", "alice")
+        sam: User = await create_user(session, username="sam", email=None)
+        await create_posts(
+            session,
+            "MySQL Intro",
+            "MariaDB Lesson",
+            user_id=sam.id,
             
-    #     )
+        )
 
    
 
 
-    #     await fetch_all_users(session)
-    #     await fetch_users_with_posts(session)
+        await asyncio.gather(fetch_all_users(session))
+        await asyncio.gather(fetch_users_with_posts(session))
 
-    #     await fetch_all_posts(session)
+        await fetch_all_posts(session)
         # posts: Sequence[Post] = await fetch_all_posts_with_authors(session)
         #
         # for post in posts:
