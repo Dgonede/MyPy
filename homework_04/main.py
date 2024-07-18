@@ -1,6 +1,6 @@
 import asyncio
 from collections.abc import Sequence
-
+import os
 from sqlalchemy import desc
 from sqlalchemy import func
 from sqlalchemy import select
@@ -8,10 +8,9 @@ from sqlalchemy import update
 from sqlalchemy.orm import joinedload
 from sqlalchemy.orm import selectinload
 from sqlalchemy.ext.asyncio import AsyncSession
-
+PG_CONN_URI = os.environ.get("SQLALCHEMY_PG_CONN_URI") or "postgresql+asyncpg://postgres:password@localhost/postgres"
 
 from modul.models import (
-    async_session,
     async_engine, 
     Base, 
     User, 
