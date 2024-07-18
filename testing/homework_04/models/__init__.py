@@ -7,8 +7,5 @@ __all__ = (
     "Tag",
 )
 
-from .base import Base
-from .db import async_engine, async_session
-from .post import Post
-from .user import User
+from .models import Base, User, async_engine, async_session
 from .tag import Tag
