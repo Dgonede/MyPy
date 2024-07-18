@@ -88,19 +88,6 @@ async def create_posts(
 
 
 
-async def create_tags(
-    session: AsyncSession,
-    *names: str,
-) -> Sequence[Tag]:
-    tags = [
-        Tag(name=name)
-        for name in names
-    ]
-    session.add_all(tags)
-    print("prepared tags:", tags)
-    await session.commit()
-    print("saved tags:", tags)
-    return tags
 
 async def fetch_all_users(session: AsyncSession) -> Sequence[User]:
     # stmt = select(User).order_by(User.id)
@@ -302,7 +289,7 @@ async def main():
             
     #     )
 
-    #     # await create_tags(session, "news", "postgres", "MySql")
+   
 
 
     #     await fetch_all_users(session)
