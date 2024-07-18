@@ -4,8 +4,7 @@ __all__ = (
     "Base",
     "Post",
     "User",
-    "Tag",
+    
 )
 
 from .models import Base, User, async_engine, async_session
-from .tag import Tag
