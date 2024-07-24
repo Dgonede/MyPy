@@ -1,7 +1,7 @@
 import asyncio
 from collections.abc import Sequence
 from sqlalchemy import select
-from sqlalchemy.orm import joinedload
+from sqlalchemy.orm import selectinload
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from .models import (
@@ -46,25 +46,25 @@ async def create_post(
     return post
 
 
-# async def fetch_all_posts_with_authors(
-#     session: AsyncSession,
-# ) -> Sequence[Post]:
-#     stmt = (
-#         select(Post)
-#         .options(
-#             joinedload(Post.user),
-#         )
-#         .order_by(Post.id)
-#     )
-#     result = await session.scalars(stmt)
-#     posts = result.all()
-#     print("posts:", posts)
+async def fetch_all_posts_with_authors(
+    session: AsyncSession,
+) -> Sequence[Post]:
+    stmt = (
+        select(Post)
+        .options(
+            selectinload(Post.user),
+        )
+        .order_by(Post.id)
+    )
+    result = await session.scalars(stmt)
+    posts = result.all()
+    print("posts:", posts)
 
-#     for post in posts:
-#         print("+", post)
-#         print("= author:", post.user)
+    for post in posts:
+        print("+", post)
+        print("= author:", post.user)
 
-#     return posts
+    return posts
 
 
 async def async_main():
@@ -80,7 +80,7 @@ async def async_main():
         )
         print("post pg:", post_pg)
 
-    # await fetch_all_posts_with_authors(session) 
+    await fetch_all_posts_with_authors(session) 
        
 
    
