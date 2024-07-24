@@ -1,11 +1,10 @@
 import asyncio
 from collections.abc import Sequence
-import os
 from sqlalchemy import select
 from sqlalchemy.orm import joinedload
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from models import (
+from .models import (
     Session,
     async_engine, 
     Base, 
