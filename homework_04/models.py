@@ -2,8 +2,7 @@ from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
 from sqlalchemy import MetaData
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm import declared_attr
-import config
-from typing import TYPE_CHECKING
+import os
 import secrets
 from sqlalchemy.orm import relationship
 from datetime import datetime
@@ -15,17 +14,13 @@ from sqlalchemy.orm import mapped_column
 
 
 
-async_engine = create_async_engine(
-    url=config.DB_URL,
-    echo=config.DB_ECHO,
-)
+PG_CONN_URI = os.environ.get("SQLALCHEMY_PG_CONN_URI") or "postgresql+asyncpg://postgres:password@localhost/postgres"
+
+async_engine = create_async_engine(PG_CONN_URI, echo=True)
+
+Session = async_sessionmaker(bind=async_engine)
 
 
-async_session = async_sessionmaker(
-    bind=async_engine,
-    expire_on_commit=False,
-    autocommit= False,
-)
 
 
 
@@ -60,7 +55,7 @@ class User(Base):
         unique=True,
         )
 
-    posts: Mapped[list["Post"]] = relationship(back_populates="author")
+    posts: Mapped[list["Post"]] = relationship(back_populates="user")
 
     def __repr__(self):
         return str(self)
@@ -81,7 +76,7 @@ class Post(Base):
     published_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=False))
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
     body: Mapped[str | None] = mapped_column(String(32), unique=True)
-    author: Mapped["User"] = relationship(back_populates="posts")
+    user: Mapped["User"] = relationship(back_populates="posts")
 
     def __repr__(self):
         return str(self)

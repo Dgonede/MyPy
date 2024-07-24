@@ -1,12 +1,19 @@
 import aiohttp
 import asyncio
-from common import configure_logging
 import logging
 
 log = logging.getLogger(__name__)
 
 USERS_DATA_URL = "https://jsonplaceholder.typicode.com/users"
 POSTS_DATA_URL = "https://jsonplaceholder.typicode.com/posts"
+
+def configure_logging(level=logging.INFO):
+    logging.basicConfig(
+        level=level,
+        datefmt="%Y-%m-%d %H:%M:%S",
+        format="[%(asctime)s.%(msecs)03d] %(module)s:%(lineno)d %(levelname)s - %(message)s",
+    )
+
 
 async def fetch_json(url):
     async with aiohttp.ClientSession() as session:
