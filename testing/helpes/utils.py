@@ -2,7 +2,7 @@ import sys
 from pathlib import Path
 
 
-def add_homework_path(file): 
+def add_homework_path(file):
     current_file = Path(file).resolve()
     folder_test_homework_0X = current_file.parent
     homework_0X = folder_test_homework_0X.name.replace("test_", "")
