@@ -46,25 +46,25 @@ async def create_post(
     return post
 
 
-async def fetch_all_posts_with_authors(
-    session: AsyncSession,
-) -> Sequence[Post]:
-    stmt = (
-        select(Post)
-        .options(
-            joinedload(Post.author),
-        )
-        .order_by(Post.id)
-    )
-    result = await session.scalars(stmt)
-    posts = result.all()
-    print("posts:", posts)
+# async def fetch_all_posts_with_authors(
+#     session: AsyncSession,
+# ) -> Sequence[Post]:
+#     stmt = (
+#         select(Post)
+#         .options(
+#             joinedload(Post.user),
+#         )
+#         .order_by(Post.id)
+#     )
+#     result = await session.scalars(stmt)
+#     posts = result.all()
+#     print("posts:", posts)
 
-    for post in posts:
-        print("+", post)
-        print("= author:", post.author)
+#     for post in posts:
+#         print("+", post)
+#         print("= author:", post.user)
 
-    return posts
+#     return posts
 
 
 async def async_main():
