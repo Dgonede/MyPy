@@ -1,7 +1,7 @@
 import pytest
 
 # import homework package and skip the whole test if not available
-homework = pytest.importorskip("homework_04")
+homework = pytest.importorskip("homework_04") 
 
 import requests
 from faker import Faker
