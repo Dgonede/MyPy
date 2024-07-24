@@ -80,7 +80,7 @@ async def async_main():
         )
         print("post pg:", post_pg)
 
-    await fetch_all_posts_with_authors(session) 
+    # await fetch_all_posts_with_authors(session) 
        
 
    
