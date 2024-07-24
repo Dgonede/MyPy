@@ -69,6 +69,7 @@ async def fetch_all_posts_with_authors(
 
 async def async_main():
     await create_tables()
+    asyncio.get_event_loop().run_until_complete(async_main())
     async with Session() as session:
         await create_user(session, username="lone", email="lone@admin.com")
         Dan: User = await create_user(session, username="gane", email=None)
