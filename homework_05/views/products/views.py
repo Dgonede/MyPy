@@ -1,8 +1,9 @@
-from flask import Blueprint
+from http import HTTPStatus
+from flask import Blueprint, redirect, request, url_for
 from flask import render_template
 from .crud import storage
 from werkzeug.exceptions import NotFound
-
+from .models import ProductCreate
 
 products_app = Blueprint(
     "products_app",
@@ -16,6 +17,24 @@ def get_product_list():
         "products/index.html",
         products=storage.get(),
         )
+
+
+@products_app.route("/add/", endpoint="add", methods=["GET", "POST"])
+def add_product():
+    if request.method != "POST":
+        return render_template("products/add.html")
+
+    product_name = request.form.get("product-name") or "Default"
+    product_price = request.form.get("product-price") or 0
+
+    product = storage.create(
+        product_create=ProductCreate(
+            name=product_name,
+            price=product_price,
+        ),
+    )
+    new_url = url_for("products_app.details", product_id=product.id)
+    return redirect(new_url, code=HTTPStatus.SEE_OTHER)
 
 
 @products_app.route("/<int:product_id>/", endpoint="details")
