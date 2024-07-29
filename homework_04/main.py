@@ -1,9 +1,9 @@
 import asyncio
 from collections.abc import Sequence
 from sqlalchemy import select
+from sqlalchemy.orm import joinedload
 from sqlalchemy.orm import selectinload
 from sqlalchemy.ext.asyncio import AsyncSession
-
 from .models import (
     Session,
     async_engine, 
@@ -15,10 +15,7 @@ from .models import (
 async def create_tables():
     async with async_engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
-    # # Base.metadata.drop_all(bind=engine)
-    # print("Creating tables...", Base.metadata.tables)
-    # Base.metadata.create_all(bind=engine)
-
+    
 async def create_user(
     session: AsyncSession,
     username: str,
@@ -26,10 +23,7 @@ async def create_user(
 ) -> User:
     user = User(username=username, email=email)
     session.add(user)
-
     await session.commit()
-
-    print("user created:", user)
     return user
 
 
@@ -39,10 +33,8 @@ async def create_post(
     user_id: int,
 ) -> Post:
     post = Post(title=title, user_id=user_id)
-    # post.author = user
     session.add(post)
     await session.commit()
-    print("post created:", post)
     return post
 
 
@@ -52,43 +44,51 @@ async def fetch_all_posts_with_authors(
     stmt = (
         select(Post)
         .options(
-            selectinload(Post.user),
+            joinedload(Post.user),
         )
         .order_by(Post.id)
     )
-    result = await session.scalars(stmt)
-    posts = result.all()
-    print("posts:", posts)
-
-    for post in posts:
-        print("+", post)
-        print("= author:", post.user)
-
+    result = await session.execute(stmt)
+    posts = result.scalars().all()
+    
     return posts
 
 
 async def async_main():
     await create_tables()
     async with Session() as session:
-        await create_user(session, username="lone", email="lone@admin.com")
-        Dan: User = await create_user(session, username="gane", email=None)
-        post_pg: Post = await create_post(
-            session=session,
-            title="Reander post",
-            user_id=Dan.id,
-           
-        )
-        print("post pg:", post_pg)
-
-    await fetch_all_posts_with_authors(session) 
-       
-
-   
-
-
-def main():
-    async_main()    
+        await create_user(session, username="admin", email="admin@admin.com")
+        admin_user = await session.execute(select(User).filter(User.username == "admin"))
+        admin_user = admin_user.scalar_one()
         
+        await create_post(
+            session,
+            title="PostgreSQL news",
+            user_id=admin_user.id,
+        )
+        
+        await create_user(session, username="john", email="john@example.com")
+        john_user = await session.execute(select(User).filter(User.username == "john"))
+        john_user = john_user.scalar_one()
+        
+        await create_post(
+            session,
+            title="MySQL news",
+            user_id=john_user.id,
+        )
+        
+        await asyncio.gather(
+        fetch_all_posts_with_authors(session),
+        create_user(session, username="Alice", email= None)
+        )
+        
+        
+    
+ 
+       
+async def main():
+    await async_main()
+
 
 if __name__ == "__main__":
-   asyncio.run(main())
+    asyncio.run(main())
