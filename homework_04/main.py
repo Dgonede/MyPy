@@ -44,6 +44,7 @@ async def fetch_all_posts_with_authors(
 ) -> Sequence[Post]:
     stmt = (
         select(Post)
+        .join(Post.user)
         .options(
             selectinload(Post.user),
         )
