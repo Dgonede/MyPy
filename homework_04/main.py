@@ -79,16 +79,6 @@ async def async_main():
         
         await fetch_all_posts_with_authors(session)
 
-        
-        
-        
-        
-        
-    
- 
-       
-
-
 
 if __name__ == "__main__":
     asyncio.run(async_main())
