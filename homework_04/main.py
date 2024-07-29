@@ -31,7 +31,7 @@ async def create_post(
     session: AsyncSession,
     title: str,
     user_id: int,
-    body: str
+    body: str,
 ) -> Post:
     post = Post(title=title, user_id=user_id, body=body)
     session.add(post)
@@ -66,6 +66,7 @@ async def async_main():
             session,
             title="PostgreSQL news",
             user_id=admin_user.id,
+            body="Async engine",
         )
         
         await create_user(session, username="john", email="john@example.com")
