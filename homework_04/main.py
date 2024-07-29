@@ -88,7 +88,7 @@ async def async_main():
  
        
 async def main():
-    await asyncio.gather(async_main())
+    await asyncio.gather(async_main)
 
 
 if __name__ == "__main__":
