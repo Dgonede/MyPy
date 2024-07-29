@@ -44,7 +44,6 @@ async def fetch_all_posts_with_authors(
 ) -> Sequence[Post]:
     stmt = (
         select(Post)
-        .join(Post.user)
         .options(
             selectinload(Post.user),
         )
@@ -57,7 +56,7 @@ async def fetch_all_posts_with_authors(
 
 
 async def async_main():
-    await create_tables()
+    # await create_tables()
     async with Session() as session:
         await create_user(session, username="admin", email="admin@admin.com")
         admin_user = await session.execute(select(User).filter(User.username == "admin"))
