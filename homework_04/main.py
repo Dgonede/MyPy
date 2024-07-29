@@ -79,7 +79,7 @@ async def async_main():
         
         await asyncio.gather(
         fetch_all_posts_with_authors(session),
-        create_user(session, username="Alice", email= None)
+        asyncio.wait_for(create_user(session, username="Alice", email= None), 5)
         )
         
         
