@@ -81,7 +81,7 @@ async def async_main():
         )
         
         await fetch_all_posts_with_authors(session)
-        await asyncio.gather(async_main())
+       
 
 if __name__ == "__main__":
     asyncio.run(async_main())
