@@ -77,9 +77,10 @@ async def async_main():
             user_id=john_user.id,
         )
         
-        await asyncio.gather(
-        fetch_all_posts_with_authors(session),
-        create_user(session))
+        await fetch_all_posts_with_authors(session)
+
+        
+        
         
         
         
@@ -87,7 +88,7 @@ async def async_main():
  
        
 async def main():
-    await async_main()
+    await asyncio.gather(async_main())
 
 
 if __name__ == "__main__":
