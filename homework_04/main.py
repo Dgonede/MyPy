@@ -31,8 +31,9 @@ async def create_post(
     session: AsyncSession,
     title: str,
     user_id: int,
+    body: str
 ) -> Post:
-    post = Post(title=title, user_id=user_id)
+    post = Post(title=title, user_id=user_id, body=body)
     session.add(post)
     await session.commit()
     return post
@@ -75,10 +76,11 @@ async def async_main():
             session,
             title="MySQL news",
             user_id=john_user.id,
+            body="Async funk",
         )
         
         await fetch_all_posts_with_authors(session)
-
+        await asyncio.gather(async_main())
 
 if __name__ == "__main__":
     asyncio.run(async_main())
