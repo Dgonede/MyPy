@@ -55,10 +55,16 @@ async def fetch_all_posts_with_authors(
 
 
 async def async_main():
-    await create_tables()
     async with Session() as session:
-        task_1 = await create_user(session, username = "Sam", email="Sam@mail.ru")
-        task_1=await asyncio.gather(task_1)
+        await create_tables()
+        user_data, post_data = await asyncio.gather(
+            create_user(session, username="SAM", email="SAM@mail.ru"),
+            fetch_all_posts_with_authors(session),
+            )
+            
+
+    
+        
         
         
 
