@@ -3,7 +3,7 @@ from collections.abc import Sequence
 from sqlalchemy import select
 from sqlalchemy.orm import joinedload
 from sqlalchemy.orm import selectinload
-from sqlalchemy.ext.asyncio import AsyncSession 
+from sqlalchemy.ext.asyncio import AsyncSession
 from .models import (
     Session,
     async_engine, 
@@ -53,21 +53,33 @@ async def fetch_all_posts_with_authors(
     result = await session.execute(stmt)
     return result
 
-
+   
 async def async_main():
     async with Session() as session:
         await create_tables()
-        user_data, post_data = await asyncio.gather(
-            create_user(session, username="SAM", email="SAM@mail.ru"),
-            fetch_all_posts_with_authors(session),
-            )
-            
-
-    
+        await create_user(session, username="admin", email="admin@admin.com")
+        admin_user = await session.execute(select(User).filter(User.username == "admin"))
+        admin_user = admin_user.scalar_one()
         
+        await create_post(
+            session,
+            title="PostgreSQL news",
+            user_id=admin_user.id,
+            body="Async engine",
+        )
         
+        await create_user(session, username="john", email="john@example.com")
+        john_user = await session.execute(select(User).filter(User.username == "john"))
+        john_user = john_user.scalar_one()
         
-
+        await create_post(
+            session,
+            title="MySQL news",
+            user_id=john_user.id,
+            body="Async funk",
+        )
+        
+        await fetch_all_posts_with_authors(session)
        
 
 if __name__ == "__main__":
