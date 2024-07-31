@@ -5,24 +5,35 @@ Products list
 {% endblock %}
 
 {% block body %}
+
 <h1>Products:</h1>
-<div class="list-group">
-    {% for product in products %}
-    <a class="list-group-item text-primary"
-    href="{{ url_for('products_app.details', product_id=product.id) }}"
-    >{{ product.name }} 
-    ${{ product.price }}</a>
-{% endfor %}
-</div>
 
-<div class="card-body">
-    <h5 class="card-title">New arrivals!</h5>
-    <p class="card-text">New Smartphone just arrived!</p>
-    <a href="#" class="btn btn-primary">Go buy</a>
-  </div>    
 
-<div>
-   <a class="btn btn-primary my-3"  
-   href="{{ url_for('products_app.add') }}">Add a new product</a> 
-</div>
-{% endblock %}
+<div class="row">
+  <div class="col-12 col-sm-8 col-lg-9">
+
+    <div class="list-group">
+      {% for product in products %}
+      <a class="btn btn bg-primary bg-gradient text-white mt-2" href="{{ url_for('products_app.details', product_id=product.id) }}">{{
+        product.name }}
+        ${{ product.price }}</a>
+      {% endfor %}
+    </div>
+    <div>
+      <a class="btn btn-primary mt-3" href="{{ url_for('products_app.add') }}">Add a new product</a>
+    </div>
+  </div>
+  <div class="col-12 col-sm-4 col-lg-3">
+    <div class="card mt-2 mt-sm-0">
+      <img
+        src="https://in-media.apjonlinecdn.com/catalog/product/cache/b3b166914d87ce343d4dc5ec5117b502/c/0/c08192495_1_9.png"
+        alt="laptop">
+      <div class="card-body">
+        <h5 class="card-title">New arrivals!</h5>
+        <p class="card-text">New Laptop just arrived!</p>
+        <a href="#" class="btn btn-primary">Go buy</a>
+      </div>
+    </div>
+  </div>
+
+  {% endblock %}

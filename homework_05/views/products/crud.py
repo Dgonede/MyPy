@@ -33,19 +33,19 @@ class ProductsStorage:
 storage = ProductsStorage()
 storage.create(
     ProductCreate(
-        name="Smartphone",
+        name="Iphone XR",
         price=999,
     ),
 )
 storage.create(
     ProductCreate(
-        name="Laptop",
+        name="Laptop Xiaomi",
         price=1999,
     ),
 )
 storage.create(
     ProductCreate(
-        name="Tablet",
+        name="Oppo",
         price=699,
     ),
 )
