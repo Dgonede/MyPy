@@ -1,5 +1,5 @@
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
-from sqlalchemy import MetaData
+from sqlalchemy import MetaData, Text
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm import declared_attr
 import os
@@ -76,10 +76,9 @@ class User(Base):
 class Post(Base):
 
     title: Mapped[str] = mapped_column(String(100))
-    # body: Mapped[str] = mapped_column(Text)
+    body: Mapped[str] = mapped_column(Text)
     published_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=False))
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
-    body: Mapped[str] = mapped_column(String(32), unique=True)
     user: Mapped["User"] = relationship(back_populates="posts")
 
     def __repr__(self):
