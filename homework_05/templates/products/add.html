@@ -6,18 +6,17 @@ Add a new product
 
 {% block body %}
 <h1>Add new product</h1>
+
 <form method="post">
-    <div>
-        <label for="p-name">Product name:</label>
-        <input id="p-name" type="text" name="product-name" required>
+    <div class="mb-3">
+        <label for="input-product-name" class="form-label">Product name:</label>
+        <input type="text" class="form-control" id="input-product-name" name="product-name" required>
     </div>
-
-    <div>
-        <label for="p-price">Product price:</label>
-        <input id="p-price" type="number" name="product-price" min="1" required>
+    <div class="mb-3">
+        <label for="input-price">Product price:</label>
+        <input id="input-price" class="form-control" type="number" name="product-price" min="1" required>
     </div>
-
-    <input type="submit" value="Add">
+    <button type="submit" class="btn btn-primary">Add</button>
 </form>
 
 {% include 'products/components/back_to_prod_list.html' %}
