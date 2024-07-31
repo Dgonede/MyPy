@@ -1,27 +1,14 @@
-from flask import Flask
-from flask import render_template
-from views.products import products_app
+from flask import Flask, render_template, url_for
 
 app = Flask(__name__)
-app.register_blueprint(products_app)
 
-@app.route("/", endpoint="index")
-def hello():
-    return render_template(
-        "index.html"
-    )
+@app.route('/')
+def index():
+    return render_template('base.html', title='Home')
 
+@app.route('/about/')
+def about():
+    return render_template('base.html', title='About', content='Это страница о нас.')
 
-@app.route("/hello/<name>/")
-def hello_name(name):
-    name=name.strip()
-    return render_template(
-        "hello.html",
-        name=name,
-    )
-
-
-
-
-if __name__ =="__main__":
-    app.run(debug=True, host="0.0.0.0", port=5000)
+if __name__ == '__main__':
+    app.run(debug=True)
