@@ -84,8 +84,8 @@ async def async_main():
         ))
 
         
-       
-        
+    await fetch_all_users(session)  
+    await fetch_all_posts(session)    
         
         
         
