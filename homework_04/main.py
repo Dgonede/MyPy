@@ -52,22 +52,6 @@ async def fetch_all_posts(session: AsyncSession) -> Sequence[Post]:
     posts = result.all()
     return posts
 
-
-
-async def fetch_all_posts_with_authors(
-    session: AsyncSession,
-) -> Sequence[Post]:
-    stmt = (
-        select(Post)
-        .options(
-            selectinload(Post.user)
-            
-        )
-        .order_by(Post.id)
-    )
-    result = await session.execute(stmt)
-    return result
-
    
 async def async_main():
     await create_tables()
@@ -94,15 +78,15 @@ async def async_main():
             body="Async funk",
         )
         
-        task1 =await fetch_all_users(session)
+        task1 = await fetch_all_users(session)
         task2 = await fetch_all_posts(session)
-        task3 = await fetch_all_posts_with_authors(session)
+        
 
         await asyncio.gather(
            task1,
            task2,
-           task3,
             )
+          
         
        
 
