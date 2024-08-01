@@ -4,7 +4,7 @@ from sqlalchemy import desc, select
 import aiohttp
 from sqlalchemy.orm import selectinload, joinedload
 from sqlalchemy.ext.asyncio import AsyncSession
-from jsonplaceholder_requests import USERS_DATA_URL, POSTS_DATA_URL
+from .jsonplaceholder_requests import USERS_DATA_URL, POSTS_DATA_URL
 from .models import (
     Session,
     async_engine, 
