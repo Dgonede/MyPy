@@ -72,7 +72,7 @@ async def test_main(users_data, posts_data):
         res_posts = await session.execute(stmt_query_posts)
 
         users.extend(res_users.scalars())
-        posts.extend(res_posts.scalars())
+        posts.extend(res_posts.scalars()) 
 
     assert len(posts) == len(posts_data)
 
