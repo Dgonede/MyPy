@@ -2,7 +2,7 @@ import asyncio
 from collections.abc import Sequence
 from sqlalchemy import desc, select
 
-from sqlalchemy.orm import selectinload
+from sqlalchemy.orm import selectinload, joinedload
 from sqlalchemy.ext.asyncio import AsyncSession
 from .models import (
     Session,
@@ -61,7 +61,7 @@ async def fetch_all_posts_with_authors(
         select(Post)
         .options(
             selectinload(Post.user),
-            selectinload(Post.body)
+            joinedload(Post.body)
         )
         .order_by(Post.id)
     )
