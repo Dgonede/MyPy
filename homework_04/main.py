@@ -71,11 +71,11 @@ async def async_main():
         
         # Создание пользователей и постов в базе данных
         for user_data in users_data:
-            await create_user(session, username=user_data['username'], email=user_data['email'])
+            await create_user(session, username=user_data['Nick'], email=user_data['Nick@mail.com'])
         
         for post_data in posts_data:
             user_id = post_data['userId']  # Предполагаем, что userId соответствует id в базе данных
-            await create_post(session, title=post_data['title'], body=post_data['body'], user_id=user_id)
+            await create_post(session, title=post_data['PostgreSQL'], body=post_data['Body'], user_id=user_id)
         
         # Получение всех пользователей и постов
         users = await fetch_all_users(session)
