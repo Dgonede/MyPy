@@ -24,7 +24,7 @@ async def create_user(
     user = User(username=username, email=email)
     session.add(user)
     await session.commit()
-    return await user
+    return user
 
 
 async def create_post(
@@ -36,21 +36,21 @@ async def create_post(
     post = Post(title=title, user_id=user_id, body=body)
     session.add(post)
     await session.commit()
-    return await post
+    return post
 
 
 async def fetch_all_users(session: AsyncSession) -> Sequence[User]:
     stmt = select(User).order_by(desc(User.username))
     result = await session.scalars(stmt)
     users = result.all()
-    return await users
+    return users
 
 
 async def fetch_all_posts(session: AsyncSession) -> Sequence[Post]:
     stmt = select(Post).order_by(Post.id)
     result = await session.scalars(stmt)
     posts = result.all()
-    return await posts
+    return posts
 
 
 
@@ -66,7 +66,7 @@ async def fetch_all_posts_with_authors(
         .order_by(Post.id)
     )
     result = await session.execute(stmt)
-    return await result
+    return result
 
    
 async def async_main():
