@@ -1,10 +1,9 @@
 import asyncio
 from collections.abc import Sequence
 from sqlalchemy import desc, select
-import aiohttp
-from sqlalchemy.orm import selectinload, joinedload
+
+from sqlalchemy.orm import selectinload
 from sqlalchemy.ext.asyncio import AsyncSession
-from .jsonplaceholder_requests import USERS_DATA_URL, POSTS_DATA_URL
 from .models import (
     Session,
     async_engine, 
@@ -40,49 +39,55 @@ async def create_post(
     return post
 
 
-async def fetch_all_users(session: AsyncSession):
-    result = await session.execute(select(User))
-    return result.scalars().all()
+async def fetch_all_users(session: AsyncSession) -> Sequence[User]:
+    stmt = select(User).order_by(desc(User.username))
+    result = await session.scalars(stmt)
+    users = result.all()
+    return users
 
 
-async def fetch_all_posts(session: AsyncSession):
-    result = await session.execute(select(Post))
-    return result.scalars().all()
+async def fetch_all_posts(session: AsyncSession) -> Sequence[Post]:
+    stmt = select(Post).order_by(Post.id)
+    result = await session.scalars(stmt)
+    posts = result.all()
+    return posts
 
-async def fetch_json(url):
-    async with aiohttp.ClientSession() as session:
-        async with session.get(url) as response:
-            data = await response.json()
-            return data
 
-async def fetch_users_data():
-    return await fetch_json(USERS_DATA_URL)
 
-async def fetch_posts_data():
-    return await fetch_json(POSTS_DATA_URL)
+async def fetch_all_posts_with_authors(
+    session: AsyncSession,
+) -> Sequence[Post]:
+    stmt = (
+        select(Post)
+        .options(
+            selectinload(Post.user),
+            selectinload(Post.body)
+        )
+        .order_by(Post.id)
+    )
+    result = await session.execute(stmt)
+    return result
+
    
 async def async_main():
-    users_data = await fetch_users_data()
-    posts_data = await fetch_posts_data()
     await create_tables()
     async with Session() as session:
-        users_data = await fetch_users_data()
-        posts_data = await fetch_posts_data()
+        await create_user(session, username="admin", email="admin@admin.com")
+        bob: User = await create_user(session, username="bob", email=None)
+        john: User = await create_user(session, username="john", email=None)
+        greg: User = await create_user(session, username="greg", email=None)
+        post_pg: Post = await create_post(
+            session=session,
+            title="PostgreSQL news",
+            user_id=greg.id,
+        )
+        return post_pg
         
-        # Создание пользователей и постов в базе данных
-        for user_data in users_data:
-            await create_user(session, username=user_data['Nick'], email=user_data['Nick@mail.com'])
         
-        for post_data in posts_data:
-            user_id = post_data['userId']  # Предполагаем, что userId соответствует id в базе данных
-            await create_post(session, title=post_data['PostgreSQL'], body=post_data['Body'], user_id=user_id)
         
-        # Получение всех пользователей и постов
-        users = await fetch_all_users(session)
-        posts = await fetch_all_posts(session)
-        return users, posts
-       
         
+        
+      
        
 
 if __name__ == "__main__":
