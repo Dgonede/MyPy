@@ -72,20 +72,19 @@ async def fetch_all_posts_with_authors(
 async def async_main():
     await create_tables()
     async with Session() as session:
-        create_user(session, username="admin", email="admin@admin.com")
-        bob: User = create_user(session, username="bob", email=None)
-        john: User = create_user(session, username="john", email=None)
-        greg: User = create_user(session, username="greg", email=None)
-        post_pg: Post = create_post(
+        await create_user(session, username="admin", email="admin@admin.com")
+        bob: User = await create_user(session, username="bob", email=None)
+        john: User = await create_user(session, username="john", email=None)
+        greg: User = await create_user(session, username="greg", email=None)
+        post_pg: Post = await create_post(
             session=session,
             title="PostgreSQL news",
             user_id=greg.id,
             body="PUSTO",
         )
-        
-    await asyncio.gather(create_post(),create_user())
-    
-        
+
+        await asyncio.gather(create_post(),create_user())
+       
         
         
         
