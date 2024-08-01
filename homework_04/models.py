@@ -70,7 +70,7 @@ class User(Base):
 class Post(Base):
 
     title: Mapped[str] = mapped_column(String(100))
-    body: Mapped[str] = mapped_column(Text)
+    body: Mapped[str | None] = mapped_column(Text)
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
     user: Mapped["User"] = relationship(back_populates="posts")
 
