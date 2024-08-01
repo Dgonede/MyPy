@@ -80,6 +80,7 @@ async def async_main():
             session=session,
             title="PostgreSQL news",
             user_id=greg.id,
+            body="PUSTO",
         )
         return post_pg
         
