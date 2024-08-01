@@ -82,10 +82,11 @@ async def async_main():
         task2 = await fetch_all_posts(session)
         
 
-        await asyncio.gather(
+        users, posts= await asyncio.gather(
            task1,
            task2,
             )
+        return users,posts
           
         
        
