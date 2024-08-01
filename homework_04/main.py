@@ -56,6 +56,7 @@ async def fetch_all_posts(session: AsyncSession) -> Sequence[Post]:
 async def async_main():
     await create_tables()
     async with Session() as session:
+        # Создание пользователей и постов
         await create_user(session, username="admin", email="admin@admin.com")
         admin_user = await session.execute(select(User).filter(User.username == "admin"))
         admin_user = admin_user.scalar_one()
@@ -78,15 +79,16 @@ async def async_main():
             body="Async funk",
         )
         
-        task1 = fetch_all_users(session)
-        task2 = fetch_all_posts(session)
+        # Получение всех постов
+        posts = await fetch_all_posts(session)
+        print(f"Total posts in database: {len(posts)}")  # Вывод количества постов
         
-
-        users, posts= await asyncio.gather(
-           task1,
-           task2,
-            )
-        return users,posts
+        # Ваши задачи
+        users, posts = await asyncio.gather(
+            fetch_all_users(session),
+            fetch_all_posts(session),
+        )
+        return users, posts
           
         
        
