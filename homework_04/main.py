@@ -43,7 +43,7 @@ async def fetch_all_users(session: AsyncSession) -> Sequence[User]:
     stmt = select(User).order_by(desc(User.username))
     result = await session.scalars(stmt)
     users = result.all()
-    return f"User id is - {users}"
+    return users
 
 
 async def fetch_all_posts(session: AsyncSession) -> Sequence[Post]:
@@ -84,8 +84,9 @@ async def async_main():
         ))
 
         
-    await fetch_all_users(session)  
-    await fetch_all_posts(session)    
+    await asyncio.gather(fetch_all_users(session))  
+    await asyncio.gather(fetch_all_posts(session))  
+    
         
         
         
