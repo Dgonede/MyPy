@@ -96,9 +96,9 @@ async def async_main():
         
 
         task1 = await asyncio.gather(
-            fetch_all_users(),
-            fetch_all_posts(),
-            fetch_all_posts_with_authors(),
+            fetch_all_users(session),
+            fetch_all_posts(session),
+            fetch_all_posts_with_authors(session),
             )
         return await task1
        
