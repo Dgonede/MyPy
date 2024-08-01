@@ -78,8 +78,8 @@ async def async_main():
             body="Async funk",
         )
         
-        task1 = await fetch_all_users(session)
-        task2 = await fetch_all_posts(session)
+        task1 = fetch_all_users(session)
+        task2 = fetch_all_posts(session)
         
 
         users, posts= await asyncio.gather(
