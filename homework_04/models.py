@@ -53,12 +53,6 @@ class User(Base):
 
     username: Mapped[str] = mapped_column(String(32), unique=True)
     email: Mapped[str | None] = mapped_column(unique=True)
-    full_name: Mapped[str] = mapped_column(default="", server_default="")
-    ref_code: Mapped[str] = mapped_column(
-        default=generate_ref_code,
-        unique=True,
-        )
-
     posts: Mapped[list["Post"]] = relationship(back_populates="user")
 
     def __repr__(self):
@@ -77,7 +71,6 @@ class Post(Base):
 
     title: Mapped[str] = mapped_column(String(100))
     body: Mapped[str] = mapped_column(Text)
-    published_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=False))
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
     user: Mapped["User"] = relationship(back_populates="posts")
 

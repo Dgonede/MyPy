@@ -95,11 +95,12 @@ async def async_main():
         )
         
 
-        create_user,create_post = await asyncio.gather(
+        task1 = await asyncio.gather(
             fetch_all_users(),
             fetch_all_posts(),
             fetch_all_posts_with_authors(),
             )
+        return await task1
        
 
 if __name__ == "__main__":
