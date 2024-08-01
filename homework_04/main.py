@@ -1,9 +1,10 @@
 import asyncio
 from collections.abc import Sequence
 from sqlalchemy import desc, select
-
+import aiohttp
 from sqlalchemy.orm import selectinload, joinedload
 from sqlalchemy.ext.asyncio import AsyncSession
+from jsonplaceholder_requests import USERS_DATA_URL, POSTS_DATA_URL
 from .models import (
     Session,
     async_engine, 
@@ -39,57 +40,48 @@ async def create_post(
     return post
 
 
-async def fetch_all_users(session: AsyncSession) -> Sequence[User]:
-    stmt = select(User).order_by(desc(User.username))
-    result = await session.scalars(stmt)
-    users = result.all()
-    return users
+async def fetch_all_users(session: AsyncSession):
+    result = await session.execute(select(User))
+    return result.scalars().all()
 
 
-async def fetch_all_posts(session: AsyncSession) -> Sequence[Post]:
-    stmt = select(Post).order_by(Post.id)
-    result = await session.scalars(stmt)
-    posts = result.all()
-    return posts
+async def fetch_all_posts(session: AsyncSession):
+    result = await session.execute(select(Post))
+    return result.scalars().all()
 
+async def fetch_json(url):
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url) as response:
+            data = await response.json()
+            return data
+
+async def fetch_users_data():
+    return await fetch_json(USERS_DATA_URL)
+
+async def fetch_posts_data():
+    return await fetch_json(POSTS_DATA_URL)
    
 async def async_main():
+    users_data = await fetch_users_data()
+    posts_data = await fetch_posts_data()
     await create_tables()
     async with Session() as session:
-        # Создание пользователей и постов
-        await create_user(session, username="admin", email="admin@admin.com")
-        admin_user = await session.execute(select(User).filter(User.username == "admin"))
-        admin_user = admin_user.scalar_one()
+        users_data = await fetch_users_data()
+        posts_data = await fetch_posts_data()
         
-        await create_post(
-            session,
-            title="PostgreSQL news",
-            user_id=admin_user.id,
-            body="Async engine",
-        )
+        # Создание пользователей и постов в базе данных
+        for user_data in users_data:
+            await create_user(session, username=user_data['username'], email=user_data['email'])
         
-        await create_user(session, username="john", email="john@example.com")
-        john_user = await session.execute(select(User).filter(User.username == "john"))
-        john_user = john_user.scalar_one()
+        for post_data in posts_data:
+            user_id = post_data['userId']  # Предполагаем, что userId соответствует id в базе данных
+            await create_post(session, title=post_data['title'], body=post_data['body'], user_id=user_id)
         
-        await create_post(
-            session,
-            title="MySQL news",
-            user_id=john_user.id,
-            body="Async funk",
-        )
-        
-        # Получение всех постов
+        # Получение всех пользователей и постов
+        users = await fetch_all_users(session)
         posts = await fetch_all_posts(session)
-        print(f"Total posts in database: {len(posts)}")  # Вывод количества постов
-        
-        # Ваши задачи
-        users, posts = await asyncio.gather(
-            fetch_all_users(session),
-            fetch_all_posts(session),
-        )
         return users, posts
-          
+       
         
        
 
