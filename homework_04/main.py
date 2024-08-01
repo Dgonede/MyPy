@@ -1,7 +1,7 @@
 import asyncio
 from collections.abc import Sequence
-from sqlalchemy import select
-from sqlalchemy.orm import joinedload
+from sqlalchemy import desc, select
+
 from sqlalchemy.orm import selectinload
 from sqlalchemy.ext.asyncio import AsyncSession
 from .models import (
@@ -24,7 +24,7 @@ async def create_user(
     user = User(username=username, email=email)
     session.add(user)
     await session.commit()
-    return user
+    return await user
 
 
 async def create_post(
@@ -36,7 +36,22 @@ async def create_post(
     post = Post(title=title, user_id=user_id, body=body)
     session.add(post)
     await session.commit()
-    return post
+    return await post
+
+
+async def fetch_all_users(session: AsyncSession) -> Sequence[User]:
+    stmt = select(User).order_by(desc(User.username))
+    result = await session.scalars(stmt)
+    users = result.all()
+    return await users
+
+
+async def fetch_all_posts(session: AsyncSession) -> Sequence[Post]:
+    stmt = select(Post).order_by(Post.id)
+    result = await session.scalars(stmt)
+    posts = result.all()
+    return await posts
+
 
 
 async def fetch_all_posts_with_authors(
@@ -51,12 +66,12 @@ async def fetch_all_posts_with_authors(
         .order_by(Post.id)
     )
     result = await session.execute(stmt)
-    return result
+    return await result
 
    
 async def async_main():
+    await create_tables()
     async with Session() as session:
-        await create_tables()
         await create_user(session, username="admin", email="admin@admin.com")
         admin_user = await session.execute(select(User).filter(User.username == "admin"))
         admin_user = admin_user.scalar_one()
@@ -79,7 +94,12 @@ async def async_main():
             body="Async funk",
         )
         
-        await fetch_all_posts_with_authors(session)
+
+        create_user,create_post = await asyncio.gather(
+            fetch_all_users(),
+            fetch_all_posts(),
+            fetch_all_posts_with_authors(),
+            )
        
 
 if __name__ == "__main__":
