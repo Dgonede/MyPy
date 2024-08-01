@@ -76,7 +76,7 @@ async def async_main():
         bob: User = await create_user(session, username="bob", email=None)
         john: User = await create_user(session, username="john", email=None)
         greg: User = await create_user(session, username="greg", email=None)
-        post_pg: Post = asyncio.gather(create_post(
+        post_pg: Post = await asyncio.gather(create_post(
             session=session,
             title="PostgreSQL news",
             user_id=greg.id,
