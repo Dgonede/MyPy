@@ -16,8 +16,7 @@ class Owner(db.Model):
 class Orders(db.Model):
     id: Mapped[int] = mapped_column(Integer(32), primary_key=True)
     name: Mapped[str] = mapped_column(String(50), nullable=False)
-    breed: Mapped[str] = mapped_column(String(50), nullable=False)
-    age: Mapped[int] = mapped_column(Integer, nullable=False)
+    price: Mapped[int] = mapped_column(Integer, nullable=False)
     owner: Mapped["Owner"] = relationship(back_populates="order")
 
      
