@@ -2,8 +2,8 @@ import os
 from flask import Flask
 from flask_migrate import Migrate
 from flask import render_template
-from app.views.products import products_app
-from .moduls.moduls import db
+from views.products import products_app
+from models.models import db
 app = Flask(__name__)
 app.register_blueprint(products_app)
 

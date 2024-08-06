@@ -10,7 +10,7 @@ class Owner(db.Model):
     name: Mapped[str] = mapped_column(String(50), nullable=False)
     age: Mapped[int] = mapped_column(Integer, nullable=False)
     phone: Mapped[str] = mapped_column(String(20), unique=True, nullable=False)
-    order: Mapped[list["Orders"]] = relationship(back_populates="Owner")
+    order: Mapped[list["Orders"]] = relationship(back_populates="owner")
 
 
 class Orders(db.Model):

@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify
-from models.model import Owner, Orders
+from models.model import Owner, Pet
 
 api = Blueprint("api", __name__)
 
@@ -14,9 +14,9 @@ def get_owners():
                 "name": owner.name,
                 "age": owner.age,
                 "phone": owner.phone,
-                "order": [
-                    {"id": order.id, "name": order.name, "price": order.age}
-                    for order in owner.orders
+                "pets": [
+                    {"id": pet.id, "name": pet.name, "breed": pet.breed, "age": pet.age}
+                    for pet in owner.pets
                 ],
             }
             for owner in owners
@@ -25,8 +25,8 @@ def get_owners():
 
 
 @api.route("/api/pets", methods=["GET"])
-def get_orders():
-    order = Orders.query.all()
+def get_pets():
+    pets = Pet.query.all()
     return jsonify(
         [
             {
