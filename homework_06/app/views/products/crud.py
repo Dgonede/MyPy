@@ -5,6 +5,8 @@ from dataclasses import field
 from .models import Product, ProductCreate
 
 
+
+
 @dataclass
 class ProductsStorage:
     products: dict[int, Product] = field(default_factory=dict)
@@ -49,3 +51,4 @@ storage.create(
         price=699,
     ),
 )
+

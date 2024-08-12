@@ -2,13 +2,13 @@ services:
   pg:
     image: postgres
     environment:
-      POSTGRES_DB: blog
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: example
+      POSTGRES_DB: test
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
     volumes:
       - db-data:/var/lib/postgresql/data
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -d blog -U user" ]
+      test: [ "CMD-SHELL", "pg_isready -d test -U postgres" ]
       interval: 5s
       timeout: 3s
       retries: 5
@@ -18,7 +18,7 @@ services:
       dockerfile: ./Dockerfile
       context: ./
     environment:
-      DATABASE_URI: "postgresql+psycopg://user:example@pg:5432/blog"
+      DATABASE_URI: "postgresql+psycopg://postgres:password@127.0.0.1:5432/test"
     ports:
       - "80:80"
     depends_on:

@@ -9,7 +9,7 @@ app.register_blueprint(products_app)
 
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
     "DATABASE_URI",
-    "sqlite:///test.db",
+    "postgresql+psycopg://user:example@localhost:5432/blog",
 )
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
