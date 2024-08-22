@@ -27,8 +27,13 @@ class ProductAdmin(admin.ModelAdmin, ShortDescriptionMixin):
     inlines =[
         OrderTabularInline,
     ]
-    list_display = "pk", "title", "price", "category", "short_descriptions"
+    list_display = "pk", "title", "price", "category", "short_descriptions", "available"
     list_display_links = "pk", "title",
+    @admin.display(
+        boolean=True,
+    )
+    def available(self, obj: Product)-> bool:
+        return not obj.archived
 
 class ProductTabularInline(admin.TabularInline):
     model = Order.products.through

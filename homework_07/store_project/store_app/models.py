@@ -1,4 +1,9 @@
+
+from django.contrib.auth import get_user_model
 from django.db import models
+
+User = get_user_model()
+
 
 class Category(models.Model):
     """
@@ -25,8 +30,10 @@ class Product(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(null=False, blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
+    archived = models.BooleanField(default=False)    
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
-        
+
+   
     def __str__(self):
         return self.title
     
@@ -41,6 +48,7 @@ class Order(models.Model):
         through_fields=("order", "product"),
         related_name="orders",
     )
+    user = models.ForeignKey(User, on_delete=models.PROTECT)
 
 
 class OrderProduct(models.Model):

@@ -9,7 +9,9 @@ Products List
 
 <ul>
     {% for product in products %}
-    <li>{{ product }}</li>
+    <li>{{ product }} ({{ product.category }})</li>
     {% endfor %}
 </ul>
+
+{% include 'store_app/components/back-to-store-index.html' %}
 {% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Orders List
+{% endblock %}
+
+{% block body %}
+<h1>Orders</h1>
+
+<div>
+    {% for order in orders %}
+    <p><strong>Address:</strong>{{ order.adress }}</p>
+    <p><strong>Comment:</strong>{% firstof order.comment '[no comment provided]'%}</p>
+    <p><strong>Client:</strong>{{ order.user }}</p>
+
+    <ul>
+
+        {% for order_product in order.order_products.all %}
+        <li>{{ order_product.product.title }} - {{ order_product.price }}₽ / {{ order_product.quantity }}шт =
+            {{order_product.total_price}}₽</li>
+        {% endfor %}
+    </ul>
+    {% if not forloop.last %}
+    <hr>
+    {% endif %}
+    {% endfor %}
+</div>
+
+{% include 'store_app/components/back-to-store-index.html' %}
+{% endblock %}
