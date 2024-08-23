@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     #3rd party
     # "debug_toolbar",
+    "django_celery_results",
     # my apps
     "store_app.apps.StoreAppConfig",
     "user_info.apps.UserInfoConfig",
@@ -62,6 +63,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    
+    
 ]
 
 ROOT_URLCONF = "store_project.urls"
@@ -142,6 +145,21 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+
+
+#=======================================================
+
+#Celery Configuration options
+CELERY_TIMEZONE = "Europe/Moscow"
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60
+CELERY_BROKER_URL = "amqp://guest:guest@localhost:5672/"
+# CELERY_RESULT_BACKEND = "rpc://"
+CELERY_RESULT_BACKEND = "django-db"
+CELERY_RESULT_PERSISTENT = True
+
+
+#===========================================================
 TESTING = "test" in sys.argv
 
 if not TESTING and DEBUG:
@@ -149,5 +167,9 @@ if not TESTING and DEBUG:
     MIDDLEWARE.insert(
         0,
         "debug_toolbar.middleware.DebugToolbarMiddleware",
+        
     )
     
+if DEBUG:
+    EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+    EMAIL_FILE_PATH = BASE_DIR / "email-inbox"

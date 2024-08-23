@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ page_title }}
+{% endblock %}
+
+{% block body %}
+<h1>Category create</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Submit">
+</form>
+<div>
+    <a href="{% url 'store_app:list_category' %}">Back to list</a>
+</div>
+{% include 'store_app/components/back-to-store-index.html' %}
+{% endblock %}

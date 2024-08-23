@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ page_title }}
+{% endblock %}
+
+{% block body %}
+<h1>Categories</h1>
+
+<div>
+    <ul>
+
+        {% for el in object_list %}
+        <li>
+            <a href="{% url 'store_app:read_category' el.pk %}">{{ el }}</a>
+            &nbsp;/
+            <a href="{% url 'store_app:update_category' el.pk %}">&laquo;Update&raquo;</a>
+        </li>
+        {% if not forloop.last %}
+        <hr>
+        {% endif %}
+        {% endfor %}
+
+    </ul>
+</div>
+
+
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+        <a href="?page=1">&laquo; back</a>
+        &nbsp;/
+        <a href="?page={{ page_obj.previous_page_number }}">&laquo;home&raquo;</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of&nbsp; {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">&laquo;next page&raquo;</a>
+        &nbsp;/
+        <a href="?page={{ page_obj.paginator.num_pages }}"> &laquo; last page&raquo;</a>
+        {% endif %}
+    </span>
+</div>
+
+
+{% include 'store_app/components/back-to-store-index.html' %}
+{% endblock %}

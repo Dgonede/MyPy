@@ -1,0 +1,12 @@
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Subject: Thanks for your order!
+From: care@example.com
+To:  <Jhon@example.com>
+Date: Fri, 23 Aug 2024 09:14:00 -0000
+Message-ID: <172440444097.13032.12275747169425290652@host.docker.internal>
+
+Thank you for your order!
+Order #16 created.
+-------------------------------------------------------------------------------

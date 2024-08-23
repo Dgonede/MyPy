@@ -6,6 +6,8 @@ python = "^3.12"
 django = "^5.1"
 psycopg2 = "^2.9.9"
 django-debug-toolbar = "^4.4.6"
+celery = "^5.4.0"
+django-celery-results = "^2.5.1"
 
 
 
