@@ -5,8 +5,8 @@ Orders List
 {% endblock %}
 
 {% block body %}
-<h1>Orders</h1>
-
+<h1 class="text-warning">Orders</h1>
+<div class="container">
 <div>
     {% for order in orders %}
     <p><strong>Address:</strong>{{ order.adress }}</p>
@@ -16,7 +16,7 @@ Orders List
     <ul>
 
         {% for order_product in order.order_products.all %}
-        <li>{{ order_product.product.title }} - {{ order_product.price }}₽ / {{ order_product.quantity }}шт =
+        <li class="text-warning">{{ order_product.product.title }} - {{ order_product.price }}₽ / {{ order_product.quantity }}шт =
             {{order_product.total_price}}₽</li>
         {% endfor %}
     </ul>
@@ -25,6 +25,6 @@ Orders List
     {% endif %}
     {% endfor %}
 </div>
-
+</div>
 {% include 'store_app/components/back-to-store-index.html' %}
 {% endblock %}

@@ -5,16 +5,16 @@
 {% endblock %}
 
 {% block body %}
-<h1>Categories</h1>
-
+<h1 class="text-warning">Categories</h1>
+<div class="container">
 <div>
     <ul>
 
         {% for el in object_list %}
         <li>
-            <a href="{% url 'store_app:read_category' el.pk %}">{{ el }}</a>
+            <a class="text-decoration-none" style="width: 60px; color:aliceblue; height: 60px; padding: 0;" href="{% url 'store_app:read_category' el.pk %}">{{ el }}</a>
             &nbsp;/
-            <a href="{% url 'store_app:update_category' el.pk %}">&laquo;Update&raquo;</a>
+            <a class="btn btn-success text-decoration-none bg-success" style="width: 90px; height: 25px; padding: 0;" href="{% url 'store_app:update_category' el.pk %}">&laquo;Update&raquo;</a>
         </li>
         {% if not forloop.last %}
         <hr>
@@ -28,9 +28,9 @@
 <div class="pagination">
     <span class="step-links">
         {% if page_obj.has_previous %}
-        <a href="?page=1">&laquo; back</a>
+        <a class="text-decoration-none" href="?page=1">&laquo; back</a>
         &nbsp;/
-        <a href="?page={{ page_obj.previous_page_number }}">&laquo;home&raquo;</a>
+        <a class="text-decoration-none" href="?page={{ page_obj.previous_page_number }}">&laquo;home&raquo;</a>
         {% endif %}
 
         <span class="current">
@@ -38,13 +38,13 @@
         </span>
 
         {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}">&laquo;next page&raquo;</a>
+        <a class="text-decoration-none" href="?page={{ page_obj.next_page_number }}">&laquo;next page&raquo;</a>
         &nbsp;/
-        <a href="?page={{ page_obj.paginator.num_pages }}"> &laquo; last page&raquo;</a>
+        <a class="text-decoration-none" href="?page={{ page_obj.paginator.num_pages }}"> &laquo; last page&raquo;</a>
         {% endif %}
     </span>
 </div>
-
+</div>
 
 {% include 'store_app/components/back-to-store-index.html' %}
 {% endblock %}

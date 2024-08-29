@@ -1,0 +1,68 @@
+body {
+    background-image: url("../images/bg.image.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+    height: 100%;
+  }
+  
+
+p {
+    color: #ddf0ed; /* Задаёт синий цвет текста для всех параграфов */
+}
+
+
+.header {
+    
+    display: flex; /* Используем Flexbox */
+    justify-content: space-between; /* Размещаем элементы по краям */
+    align-items: center; /* Центрируем по вертикали */
+    padding: 15px; /* Отступы вокруг шапки */
+    
+}
+.container {
+    background-color: rgba(51, 51, 51, 0.3);
+    width: 100%; /* Ширина контейнера */
+    max-width: 1900px; /* Максимальная ширина контейнера */
+    margin: 0 auto; /* Центрирование контейнера */
+    margin-top: 0px;
+   
+}
+.nav {
+    display: flex; /* Используем Flexbox для навигации */
+    list-style: none; /* Убираем маркеры списка */
+    padding: 0; /* Убираем отступы */
+    margin: 0; /* Убираем отступы */
+    padding-top: 0;
+    margin-top: 0;
+}
+
+.nav-item {
+    margin-left: 20px; /* Отступ между элементами навигации */
+}
+
+.nav-link {
+    text-decoration: none; /* Убираем подчеркивание */
+    font-size: 1.2rem; /* Размер шрифта */
+    color: #bcfc91; /* Цвет текста */
+}
+
+.my-button {
+    display: flex;
+    padding: 10px 10px; /* Отступы кнопки */
+    margin-right: 85%;
+    margin-top: 5px;
+    text-decoration: none;
+    font-size: 16px; /* Размер шрифта */
+    color: white; /* Цвет текста */
+    background-color: #639678; /* Цвет фона кнопки */
+    border: none; /* Убираем рамку */
+    border-radius: 5px; /* Закругленные углы */
+    cursor: pointer; /* Курсор при наведении */
+    transition: background-color 0.3s ease; /* Плавный переход цвета фона */
+}
+
+.my-button:hover {
+    background-color: #44b492; /* Цвет фона при наведении */
+}
